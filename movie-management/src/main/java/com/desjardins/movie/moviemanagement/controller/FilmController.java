@@ -20,7 +20,7 @@ import com.desjardins.movie.moviemanagement.model.response.LightFilm;
 import com.desjardins.movie.moviemanagement.service.FilmService;
 
 @RestController
-@RequestMapping("/api/film")
+@RequestMapping(value="/api/film",consumes = "application/json", produces = "application/json")
 public class FilmController {
     private final FilmService<LightFilm> service;
 
