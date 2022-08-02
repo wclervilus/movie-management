@@ -31,11 +31,7 @@ public class FilmController {
 
     @GetMapping("/{filmId}")
     public ResponseEntity<?> findById(@PathVariable("filmId") Long filmId) {
-    	Film film=service.findById(filmId);
-    	if (film==null) {
-    		throw new FilmNotFoundException("Movie id not found - " + filmId);
-		}
-        return ResponseEntity.ok(film);
+        return ResponseEntity.ok(service.findById(filmId));
     }
     @PostMapping
     public ResponseEntity<LightFilm> save(@Valid @RequestBody FilmDto dto) {

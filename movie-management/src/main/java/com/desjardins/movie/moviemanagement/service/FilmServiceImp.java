@@ -1,6 +1,8 @@
 package com.desjardins.movie.moviemanagement.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
+
 import com.desjardins.movie.moviemanagement.model.entity.Film;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.desjardins.movie.moviemanagement.exception.FilmNotFoundException;
 import com.desjardins.movie.moviemanagement.model.dto.FilmDto;
 import com.desjardins.movie.moviemanagement.model.response.LightFilm;
 import com.desjardins.movie.moviemanagement.repository.FilmRepository;
@@ -26,7 +29,12 @@ public class FilmServiceImp implements FilmService<LightFilm> {
 
 	@Override
 	public Film findById(Long filmId) {
-		return repository.findById(filmId).orElseThrow(RuntimeException::new);
+		Optional<Film> opFilm=repository.findById(filmId);
+	  	Film film=opFilm.isPresent()?opFilm.get():null;
+    	if (film==null) {
+    		throw new FilmNotFoundException("Movie id not found - " + filmId);
+		}
+		return film;
 	}
 
 	@Override
